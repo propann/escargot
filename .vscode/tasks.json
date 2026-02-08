@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "PIO: Upload ESP32 (Host)",
+      "type": "shell",
+      "command": "pio run -t upload -e heltec_wifi_lora_32_V3",
+      "options": {
+        "cwd": "${workspaceFolder}/firmware/escargot-node"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Upload Arduino (Enclave)",
+      "type": "shell",
+      "command": "pio run -t upload -e nanoatmega328",
+      "options": {
+        "cwd": "${workspaceFolder}/firmware/arduino-crypto-miner"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Build All (Zombie Proof)",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build-all.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -31,12 +31,24 @@ Et surtout : **pas de zombies qui te coupent la parole**.
 - Antenne externe + panneau solaire + batterie LiPo = nœud qui tient des semaines
 - Boîtier étanche (pour quand il pleut… ou quand les zombies explosent)
 
-### Installation rapide (mode survie)
-```bash
-# 1. Firmware du nœud
-cd firmware/escargot-node
-# Flash avec Arduino IDE ou PlatformIO
+### Offload Arduino + DUCO (Nouveau)
+Pour économiser la batterie de l'ESP32 (qui gère le Mesh), nous déportons la cryptographie :
+1. Connectez un **Arduino Nano** sur les pins RX/TX de l'ESP32.
+2. Flashez `firmware/arduino-crypto-miner` sur le Nano.
+3. Flashez `firmware/escargot-node` sur l'ESP32.
 
-# 2. Client Android (le plus utile en mode fuite)
+**Résultat** : Votre nœud mine du Duino-Coin à chaque message envoyé (récompense sociale) et signe cryptographiquement tout trafic sans ralentir le réseau.
+
+### Setup with PlatformIO (Recommandé)
+Nous utilisons PlatformIO pour des builds robustes et offline.
+
+```bash
+# 1. Initialiser et builder tout (nécessite internet une fois)
+./scripts/build-all.sh
+
+# 2. Flasher les modules
+cd firmware/escargot-node && pio run -t upload      # ESP32
+cd firmware/arduino-crypto-miner && pio run -t upload # Arduino
+```
 cd client/android
 # Build & installe sur ton téléphone (même sans réseau)

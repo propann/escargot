@@ -2,3 +2,4 @@ meshtastic
 flask
 ollama
 pyserial
+python-dotenv

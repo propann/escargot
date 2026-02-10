@@ -1,0 +1,10 @@
+.pio
+.vscode
+*.pyc
+__pycache__
+escargot.db
+*.log
+.DS_Store
+node_modules
+build
+dist

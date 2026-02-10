@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESCARGOT 🐌 | Interface API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0d1117; color: #3fb950; font-family: monospace; }
+        .cyber-border { border: 1px solid #3fb950; box-shadow: 0 0 5px #3fb950; }
+        .category-URGENCE { border-color: #ff4444; color: #ff4444; }
+        .category-MINING { color: #e3b341; border-color: #e3b341; }
+    </style>
+</head>
+<body class="p-4 max-w-2xl mx-auto">
+    <header class="mb-8 text-center border-b border-green-900 pb-4">
+        <h1 class="text-4xl font-bold mb-2">🐌 ESCARGOT_NET</h1>
+        <div id="status-indicator" class="text-sm opacity-70">Connexion au bunker...</div>
+    </header>
+
+    <!-- Zone d'envoi -->
+    <div class="mb-6 p-4 bg-gray-900 cyber-border rounded">
+        <form id="send-form" class="flex gap-2">
+            <input type="text" id="msg-input" placeholder="Diffuser un message..." class="flex-1 bg-black border border-green-800 p-2 text-green-400 focus:outline-none focus:border-green-500" maxlength="140" required>
+            <button type="submit" class="bg-green-900 hover:bg-green-800 text-white px-4 py-2 rounded font-bold">ENVOYER</button>
+        </form>
+    </div>
+
+    <!-- Timeline -->
+    <div id="message-list" class="space-y-4">
+        <!-- Les messages seront injectés ici par JS -->
+        <div class="text-center opacity-50 animate-pulse">Recherche de signaux...</div>
+    </div>
+
+    <script>
+        // Fonction de chargement des messages via API
+        async function loadMessages() {
+            try {
+                const response = await fetch('/api/v1/messages');
+                
+                // Gestion du verrouillage DB (503)
+                if (response.status === 503) {
+                    console.warn("🐌 DB Occupée, on attend...");
+                    document.getElementById('status-indicator').innerText = "Synchronisation en attente...";
+                    return;
+                }
+                
+                const messages = await response.json();
+                document.getElementById('status-indicator').innerText = "Réseau EN LIGNE";
+                
+                const container = document.getElementById('message-list');
+                container.innerHTML = messages.map(msg => `
+                    <div class="p-4 rounded bg-gray-900 cyber-border category-${msg.category}">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-bold text-lg">
+                                ${msg.sender || 'Inconnu'}
+                                ${msg.category === 'MINING' ? '🐌' : ''}
+                            </span>
+                            <span class="text-xs opacity-60">${msg.timestamp}</span>
+                        </div>
+                        <p class="text-xl">${msg.text}</p>
+                        <div class="mt-2 text-xs uppercase tracking-widest opacity-50 border-t border-gray-800 pt-1">
+                            ${msg.category}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error("Erreur fetch:", e);
+                document.getElementById('status-indicator').innerText = "CONNEXION PERDUE";
+            }
+        }
+
+        // Envoi de message
+        document.getElementById('send-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('msg-input');
+            await fetch('/api/v1/send', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: input.value})
+            });
+            input.value = '';
+            loadMessages(); // Reload immédiat
+        });
+
+        // Polling toutes les 3 secondes (Heartbeat)
+        setInterval(loadMessages, 3000);
+        loadMessages();
+    </script>
+</body>
+</html>

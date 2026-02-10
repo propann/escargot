@@ -1,42 +1,41 @@
-# Escargot 🐌🧟
+# 🐌 PROJET ESCARGOT - The Sovereign Mesh
 
 **Le seul réseau social qui rampe plus vite que les zombies.**
 
-Inspiré de [LoRaZ-Family-Ops](https://github.com/propann/LoRaZ-Family-Ops) et Meshtastic, mais poussé dans sa version **post-apocalyptique ultime**.
+*Garanti fonctionnel même après la fin du monde (si vous avez du soleil).*
 
-Pas de serveur.  
-Pas d’opérateur.  
-Pas de Zuck.  
-Pas de 4G.  
-Et surtout : **pas de zombies qui te coupent la parole**.
+## 🏗️ Architecture de la Résistance
 
-### Pourquoi Escargot existe ?
-- Quand l’électricité tombe → Escargot continue (solaire + batterie).
-- Quand les réseaux classiques meurent → LoRa mesh prend le relais sur des dizaines de km.
-- Quand les zombies envahissent Paris → tu postes « En fuite vers Lyon, qui a encore du stock de cartouches ? » et ta communauté le reçoit en clair (ou chiffré si tu veux).
-- Chiffrement renforcé par Arduino/ESP32 : même un zombie hacker ne lira pas tes plans de survie.
+Voici comment nous maintenons l'humanité connectée avec des bouts de ficelle et du code Python :
 
-### Fonctionnalités de survie
-- **Posts courts** style Twitter (140 caractères max, parfait quand tu cours)
-- **DMs chiffrés end-to-end** (clé partagée via Arduino)
-- **Canaux thématiques** : #HordeSeine, #Ravitaillement, #SafeZone, #ZombiesALaTourEiffel
-- **Likes & réactions** via messages gossip (pouce levé = "bien reçu", crâne = "danger")
-- **Propagation automatique** : ton message saute de nœud en nœud comme un virus (mais en mieux)
-- **Mode "Last Stand"** : stockage local + envoi dès qu’un relais apparaît
-- Compatible Meshtastic (tu peux connecter tes nœuds existants)
+```ascii
++---------------+       +--------------------+       +------------------+       +-----------------+
+| Arduino Miner |       |  ESP32 Meshtastic  |       |   Raspberry Pi   |       |  Interface Web  |
+| (Crypto/Sign) | ----> |    (Radio LoRa)    | ----> |   (Bridge + IA)  | ----> |   (Dashboard)   |
+|   [Identité]  | UART  |   [Transmission]   | USB   |   [Filtrage]     | WiFi  |   [Survivant]   |
++---------------+       +--------------------+       +------------------+       +-----------------+
+       ^                                                      |
+       |                                                      v
+    [Pioche]                                           +--------------+
+                                                       |  ATAK (Map)  |
+                                                       |  [Tactique]  |
+                                                       +--------------+
+```
 
-### Matériel de survivant recommandé
-- ESP32 LoRa (Heltec V3, LilyGo T-Beam, T-Deck…)
-- Arduino Nano/Pro Micro pour la **couche crypto hardware** (gère les clés, signatures, anti-replay)
-- Antenne externe + panneau solaire + batterie LiPo = nœud qui tient des semaines
-- Boîtier étanche (pour quand il pleut… ou quand les zombies explosent)
+## 🚀 Quickstart (Avant que ça morde)
 
-### Installation rapide (mode survie)
+Vous avez 5 minutes avant la prochaine vague ? C'est parti.
+
+### 1. Préparer le Matériel
+1.  **Arduino Nano** : Flashez `firmware/arduino_miner/miner.ino`. C'est votre pioche numérique.
+2.  **ESP32** : Installez Meshtastic. Connectez l'Arduino (TX->RX, RX->TX).
+3.  **Raspberry Pi** : Branchez l'ESP32 en USB.
+
+### 2. Armer le Logiciel
 ```bash
-# 1. Firmware du nœud
-cd firmware/escargot-node
-# Flash avec Arduino IDE ou PlatformIO
+# Installez les dépendances (les munitions)
+pip install -r requirements.txt
 
-# 2. Client Android (le plus utile en mode fuite)
-cd client/android
-# Build & installe sur ton téléphone (même sans réseau)
+# Installez le Cerveau (Ollama + TinyLlama)
+chmod +x install_ollama.sh
+./install_ollama.sh

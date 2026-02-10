@@ -15,12 +15,12 @@ Le cœur du système repose sur la symbiose entre un ESP32 (Cerveau/Radio) et un
 
 ```ascii
    [ ESP32 Heltec V3 ]                  [ Arduino Nano V3 ]
+   | (Master/Radio)  |                  | (Slave/Miner)   |
    |                 |                  |                 |
-   | GPIO 17 (TX)    | ---------------> | D2 (RX)         |
-   | GPIO 16 (RX)    | <--------------- | D3 (TX)         |
+   | GPIO 17 (TX)    | --[Level Shift]->| D2 (RX)         |
+   | GPIO 16 (RX)    | <----------------| D3 (TX)         |
    | GND             | ---------------- | GND             |
-   | 5V / 3V3        | ---------------- | 5V / VIN        |
-   |                 |                  |                 |
+   | 5V (VBUS)       | ---------------- | VIN             |
    +-----------------+                  +-----------------+
 ```
 

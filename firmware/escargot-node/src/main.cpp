@@ -1,10 +1,11 @@
 #include <Arduino.h>
 
 // Survive horde: low-bandwidth opti
-// Stub pour le noeud principal ESP32
+// Noeud principal ESP32 - Orchestrateur
 
 #define ARDUINO_RX_PIN 16
 #define ARDUINO_TX_PIN 17
+#define BAUD_RATE_MINER 9600
 
 void setup() {
     Serial.begin(115200);
@@ -14,15 +15,23 @@ void setup() {
 }
 
 void sendPost(String content) {
+    // Survive EMP: offline opti
+    Serial.println("📝 Preparing post: " + content);
+
     // 1. Demander signature à l'Arduino
     Serial1.println("SIGN|" + content);
     
-    // 2. Attendre réponse (Stub)
-    // String signature = Serial1.readStringUntil('\n');
+    // 2. Attendre réponse (Timeout 2s pour éviter blocage zombie)
+    unsigned long start = millis();
+    while (!Serial1.available() && millis() - start < 2000) { delay(10); }
     
-    // 3. Broadcast sur le Mesh
-    // mesh.broadcast(content + "|" + signature);
-    Serial.println("Broadcasting: " + content);
+    if (Serial1.available()) {
+        String signature = Serial1.readStringUntil('\n');
+        Serial.println("📡 Broadcasting with SIG: " + signature);
+        // mesh.broadcast(content + "|" + signature);
+    } else {
+        Serial.println("❌ Error: Miner dead or eaten.");
+    }
 }
 
 void loop() {

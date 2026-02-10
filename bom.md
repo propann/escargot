@@ -8,4 +8,6 @@
 | Antenne | 868MHz 3dBi (SMA) | ~5€ | Portée |
 | Boîtier | Tupperware ou Impression 3D | ~2€ | Protection IP67 (Sang/Pluie) |
 | Câbles | Dupont M/F | ~1€ | Connexions |
+| Raspberry Pi | RPi 4 ou Zero 2 W | ~40€ | Cerveau IA (Ollama) |
 | Résistances | 1kΩ & 2kΩ | ~0.10€ | Pont diviseur (Level Shifter) |
+| Courage | Inestimable | 0€ | Pour sortir poser les nœuds |

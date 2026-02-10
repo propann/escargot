@@ -8,7 +8,7 @@ graph TD
     subgraph "Nœud Physique"
         ESP32 <-->|UART| Arduino[Arduino Nano Miner]
         Arduino -->|I2C/SPI| Sensors[Capteurs Env]
-        Arduino -.->|SHA1| DUCO_Mining[Mining Loop]
+        Arduino -.->|SHA1| DUCO_Mining[Mining Loop (PoW)]
     end
     
     ESP32 <-->|LoRa 868MHz| Mesh((LoRa Mesh))

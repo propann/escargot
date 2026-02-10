@@ -22,6 +22,12 @@ Le cœur du système repose sur la symbiose entre un ESP32 (Cerveau/Radio) et un
    | GND             | ---------------- | GND             |
    | 5V (VBUS)       | ---------------- | VIN             |
    +-----------------+                  +-----------------+
+           ^
+           | USB (Serial/Power)
+           v
+   [ Raspberry Pi 4 ]
+   | (AI Brain/Bridge)|
+   +------------------+
 ```
 
 **⚠️ Attention Zombie :**

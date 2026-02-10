@@ -1,5 +1,6 @@
 .pio
 .pio/
+.pio/
 .vscode
 *.pyc
 __pycache__
@@ -9,6 +10,9 @@ escargot.db
 node_modules
 build
 dist
+*.elf
+*.bin
+*.hex
 *.elf
 *.bin
 *.hex

@@ -3,6 +3,7 @@
 **Le seul réseau social qui rampe plus vite que les zombies.**
 
 *Garanti fonctionnel même après la fin du monde (si vous avez du soleil).*
+*Note : l'escargot n'inclut pas de coquille, c'est vous la coque.*
 
 ## 🏗️ Architecture de la Résistance
 
@@ -39,3 +40,7 @@ pip install -r requirements.txt
 # Installez le Cerveau (Ollama + TinyLlama)
 chmod +x install_ollama.sh
 ./install_ollama.sh
+```
+
+### 3. Démarrer la Base (et la garder vivante)
+Lancez le service, ouvrez le dashboard, respirez. Si ça plante, blâmez les zombies en premier, puis les logs.

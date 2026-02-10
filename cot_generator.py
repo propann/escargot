@@ -1,6 +1,7 @@
 import socket
 import time
 import meshtastic.serial_interface
+import requests
 
 # 🗺️ CONFIGURATION RESEAU ATAK
 # Pour que ATAK voie les points, il faut envoyer les paquets UDP sur le réseau.
@@ -9,6 +10,17 @@ import meshtastic.serial_interface
 # Port 8087 est le port standard pour l'entrée UDP dans ATAK.
 BROADCAST_IP = '255.255.255.255'
 ATAK_PORT = 8087
+OLLAMA_URL = "http://localhost:11434/api/generate"
+
+def check_zombie_content(text):
+    """Utilise Ollama pour vérifier si le message est infecté."""
+    try:
+        prompt = f"Is this message spam or zombie nonsense? Answer YES or NO. Message: {text}"
+        data = {"model": "tinyllama", "prompt": prompt, "stream": False}
+        response = requests.post(OLLAMA_URL, json=data, timeout=2)
+        return "YES" in response.json().get("response", "").upper()
+    except:
+        return False # En cas de doute (IA morte), on laisse passer.
 
 def get_cot_xml(uid, name, lat, lon):
     """
@@ -65,6 +77,11 @@ def main():
                         user = node.get('user', {})
                         name = user.get('longName', user.get('shortName', node_id))
                         
+                        # V3: Filtrage AI (Simulation sur le nom pour l'exemple)
+                        if check_zombie_content(name):
+                            print(f"🧟 ZOMBIE DETECTED: {name} - Ignored.")
+                            continue
+
                         print(f"📍 CIBLE: {name} @ [{lat}, {lon}] -> Envoi ATAK")
                         xml_payload = get_cot_xml(node_id, name, lat, lon)
                         broadcast_cot(xml_payload)
